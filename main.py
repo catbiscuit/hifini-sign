@@ -77,14 +77,14 @@ def main():
     bark_icon = os.environ.get('BARK_ICON')
 
     wait = random.randint(619, 2587)
-    #time.sleep(wait)
+    time.sleep(wait)
 
     for i in range(1, 4):
         COOKIE = os.environ.get('COOKIE' + str(i))
         sign(COOKIE, bark_deviceKey, bark_icon, i)
 
         sm = random.randint(19, 213)
-        #time.sleep(sm)
+        time.sleep(sm)
 
     print('finish')
 
