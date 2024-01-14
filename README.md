@@ -20,6 +20,12 @@
 
 3、点击Actions -> 选择hifini-sign -> 点击Run workflow 运行即可
 
+4、关于签到的定时时间
 
+近期发现服务器会在后半夜维护，页面提示：维护中..请5:20以后访问
+
+所以定时的时间尽量在这个后面，暂时不研究遇到维护情况自动后延签到的逻辑实现
+
+hifinisign.yml，调整 \- cron: 20 21 * * *，对应北京时间5:20
 
 感谢 https://github.com/Xramas/HiFiNi-Auto-Sign 提供思路
