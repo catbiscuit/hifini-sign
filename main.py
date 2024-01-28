@@ -1,9 +1,10 @@
 import json
 import os
+import random
+import re
 import time
 
 import requests
-import random
 
 
 def bark(device_key, title, content, bark_icon):
@@ -39,7 +40,8 @@ def bark(device_key, title, content, bark_icon):
     return 0
 
 
-def sign(cookie, bark_deviceKey, bark_icon, no):
+def sign(cookie, no):
+    pre = '第' + str(no) + '个，'
     if not cookie:
         cookie = ''
 
@@ -55,7 +57,6 @@ def sign(cookie, bark_deviceKey, bark_icon, no):
 
         print(response.text)
 
-        title = 'HiFiNi-签到结果 - 第' + str(no) + '个'
         message = ''
 
         if "成功签到" in response.text:
@@ -67,10 +68,11 @@ def sign(cookie, bark_deviceKey, bark_icon, no):
         else:
             message = '签到结果解析错误'
 
-        bark(bark_deviceKey, title, message, bark_icon)
+        return pre + message
 
     else:
         print('不执行签到')
+        return ''
 
 
 def main():
@@ -80,12 +82,28 @@ def main():
     wait = random.randint(3, 110)
     time.sleep(wait)
 
+    message_all = []
+    title = 'HiFiNi-签到结果'
+    message = ''
     for i in range(1, 4):
         cookie = os.environ.get('COOKIE' + str(i))
-        sign(cookie, bark_device_key, bark_icon, i)
+        msg = sign(cookie, i)
+        if not msg:
+            msg = ''
+        if len(msg) > 0:
+            message_all.append(msg)
 
         sm = random.randint(19, 97)
         time.sleep(sm)
+
+    if not message_all:
+        message = '暂无执行结果'
+    else:
+        message_all = '\n'.join(message_all)
+        message_all = re.sub('\n+', '\n', message_all).rstrip('\n')
+        message = message_all
+
+    bark(bark_device_key, title, message, bark_icon)
 
     print('finish')
 
