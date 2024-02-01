@@ -64,7 +64,9 @@ def sign(cookie, no):
         elif "今天已经签过啦" in response.text:
             message = '今天已经签过啦'
         elif "维护中" in response.text:
-            message = '服务器正在维护'
+            message = '未签到，服务器正在维护'
+        elif "请完成验证" in response.text:
+            message = '未签到，需要手动滑块验证'
         else:
             message = '签到结果解析错误'
 
