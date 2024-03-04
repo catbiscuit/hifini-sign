@@ -1,4 +1,12 @@
 # 如何使用？ 
+0、验证
+
+2024年3月4日21:35:56更新
+
+发现网址签到添加了geetest极验的滑块验证，暂无解决方案，项目搁置
+
+
+
 1、Fork项目到自己的仓库
 
 2、点击Settings -> 点击选项卡 Secrets and variables -> 点击Actions -> New repository secret
