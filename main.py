@@ -68,7 +68,7 @@ def sign(cookie, no):
         elif "请完成验证" in response.text:
             message = '未签到，需要手动滑块验证'
         elif "行为存在风险" in response.text:
-            message = '未签到，页面滑块验证'
+            message = '未签到，极验geetest页面滑块验证'
         else:
             message = '签到结果解析错误'
 
