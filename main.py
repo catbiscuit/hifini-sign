@@ -67,12 +67,12 @@ def sign(cookie, no):
             message = '未签到，操作存在风险'
         elif "维护中" in response.text:
             message = '未签到，服务器正在维护'
-        elif "正在进行人机识别" in response.text:
-            message = '未签到，页面需要renji.js跳转验证'
         elif "请完成验证" in response.text:
             message = '未签到，需要手动滑块验证'
         elif "行为存在风险" in response.text:
-            message = '未签到，极验geetest页面滑块验证'            
+            message = '未签到，极验geetest页面滑块验证'
+        elif "正在进行人机识别" in response.text:
+            message = '未签到，页面需要renji.js跳转验证'
         else:
             message = '签到结果解析错误'
 
