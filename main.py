@@ -55,8 +55,8 @@ def signV1(cookie):
 
 
 def signV2(cookie, sign):
-    dynamicKey = generateDynamicKey();
-    encryptedSign = simpleEncrypt(sign, dynamicKey);
+    dynamicKey = generateDynamicKey()
+    encryptedSign = simpleEncrypt(sign, dynamicKey)
 
     url = "https://hifini.com/sg_sign.htm"
     params = {'sign': encryptedSign}
