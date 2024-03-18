@@ -96,6 +96,10 @@ def sign2(cookie, no, sign):
     if len(cookie) > 0:
         print('有cookie，需要执行签到')
 
+        dynamicKey = generateDynamicKey();
+
+        encryptedSign = simpleEncrypt(sign, dynamicKey);
+
         url = 'https://www.hifini.com/sg_sign.htm'
         data = {'sign': sign}
         headers = {
@@ -130,6 +134,20 @@ def sign2(cookie, no, sign):
     else:
         print('不执行签到')
         return ''
+
+
+def generateDynamicKey():
+    current_time = int(time.time() * 1000)
+    key_index = (current_time // (5 * 60 * 1000)) % 5
+    keys = ['HIFINI', 'HIFINI_COM', 'HIFINI.COM', 'HIFINI-COM', 'HIFINICOM']
+    return keys[key_index]
+
+
+def simpleEncrypt(input, key):
+    result = ''
+    for i in range(len(input)):
+        result += chr(ord(input[i]) ^ ord(key[i % len(key)]))
+    return result
 
 
 def main():
