@@ -63,6 +63,8 @@ def sign(cookie, no):
             message = '成功签到'
         elif "今天已经签过啦" in response.text:
             message = '今天已经签过啦'
+        elif "操作存在风险" in response.text:
+            message = '未签到，操作存在风险'
         elif "维护中" in response.text:
             message = '未签到，服务器正在维护'
         elif "正在进行人机识别" in response.text:
