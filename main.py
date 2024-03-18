@@ -39,7 +39,6 @@ def bark(device_key, title, content, bark_icon):
         return -1
     return 0
 
-
 def sign(cookie, no):
     pre = '第' + str(no) + '个，'
     if not cookie:
@@ -54,6 +53,56 @@ def sign(cookie, no):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
         response = requests.post(url, headers=headers)
+
+        print(response.text)
+
+        message = ''
+
+        if "成功签到" in response.text:
+            message = '成功签到'
+        elif "今天已经签过啦" in response.text:
+            message = '今天已经签过啦'
+        elif "操作存在风险" in response.text:
+            pattern = r"var sign = \"([a-f0-9]+)\";"
+            match = re.search(pattern, response.text)
+            if match:
+                sign = match.group(1)
+                message = sign2(cookie, no, sign)
+            else:
+                message = '未签到，操作存在风险'
+        elif "维护中" in response.text:
+            message = '未签到，服务器正在维护'
+        elif "请完成验证" in response.text:
+            message = '未签到，需要手动滑块验证'
+        elif "行为存在风险" in response.text:
+            message = '未签到，极验geetest页面滑块验证'
+        elif "正在进行人机识别" in response.text:
+            message = '未签到，页面需要renji.js跳转验证'
+        else:
+            message = '签到结果解析错误'
+
+        return pre + message
+
+    else:
+        print('不执行签到')
+        return ''
+
+
+def sign2(cookie, no, sign):
+    pre = '第' + str(no) + '个，'
+    if not cookie:
+        cookie = ''
+
+    if len(cookie) > 0:
+        print('有cookie，需要执行签到')
+
+        url = 'https://www.hifini.com/sg_sign.htm'
+        data = {'sign': sign}
+        headers = {
+            'Cookie': cookie,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+        response = requests.post(url, data=json.dumps(data), headers=headers)
 
         print(response.text)
 
