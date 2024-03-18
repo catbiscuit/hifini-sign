@@ -3,6 +3,7 @@ import os
 import random
 import re
 import time
+from urllib.parse import urlencode
 
 import requests
 
@@ -57,13 +58,27 @@ def signV2(cookie, sign):
     dynamicKey = generateDynamicKey();
     encryptedSign = simpleEncrypt(sign, dynamicKey);
 
-    url = 'https://www.hifini.com/sg_sign.htm'
-    data = {'sign': encryptedSign}
+    url = "https://hifini.com/sg_sign.htm"
+    params = {'sign': encryptedSign}
+    payload = urlencode(params)
     headers = {
-        'Cookie': cookie,
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+        'authority': 'hifini.com',
+        'accept': 'text/plain, */*; q=0.01',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'cookie': cookie,
+        'origin': 'https://hifini.com',
+        'referer': 'https://hifini.com/sg_sign.htm',
+        'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest'
     }
-    response = requests.post(url, data=json.dumps(data), headers=headers)
+    response = requests.request("POST", url, headers=headers, data=payload)
 
     print(response.text)
 
