@@ -124,7 +124,10 @@ def sign(cookie, no):
             match = re.search(pattern, text)
             if match:
                 sign = match.group(1)
-                if len(cookie) > 0:
+                if len(sign) > 0:
+                    sm = random.randint(3, 6)
+                    time.sleep(sm)
+
                     text2 = signV2(cookie, sign)
                     message = getMessage(text2)
                 else:
