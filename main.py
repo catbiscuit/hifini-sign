@@ -136,7 +136,7 @@ def main():
     bark_device_key = os.environ.get('BARK_DEVICEKEY')
     bark_icon = os.environ.get('BARK_ICON')
 
-    wait = random.randint(3, 110)
+    wait = random.randint(3, 4)
     time.sleep(wait)
 
     message_all = []
@@ -150,7 +150,7 @@ def main():
         if len(msg) > 0:
             message_all.append(msg)
 
-        sm = random.randint(19, 97)
+        sm = random.randint(2, 3)
         time.sleep(sm)
 
     if not message_all:
