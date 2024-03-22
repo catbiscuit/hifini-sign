@@ -84,6 +84,32 @@ def signV2(cookie, sign):
 
     return response.text
 
+def signV3(cookie, sign):
+    url = "https://hifini.com/sg_sign.htm"
+    params = {'sign': sign}
+    payload = urlencode(params)
+    headers = {
+        'authority': 'hifini.com',
+        'accept': 'text/plain, */*; q=0.01',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'cookie': cookie,
+        'origin': 'https://hifini.com',
+        'referer': 'https://hifini.com/sg_sign.htm',
+        'sec-ch-ua': '"Chromium";v="122", "Not(A:Brand";v="24", "Google Chrome";v="122"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest'
+    }
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.text)
+
+    return response.text
 
 def generateDynamicKey():
     current_time = int(time.time() * 1000)
@@ -135,6 +161,21 @@ def sign(cookie, no):
         message = ''
 
         if "操作存在风险" in text and "encryptedSign" in text:
+            pattern = r"var sign = \"([a-f0-9]+)\";"
+            match = re.search(pattern, text)
+            if match:
+                sign = match.group(1)
+                if len(sign) > 0:
+                    sm = random.randint(3, 6)
+                    time.sleep(sm)
+
+                    text2 = signV2(cookie, sign)
+                    message = getMessage(text2)
+                else:
+                    message = '未签到，操作存在风险且未能解析出sign'
+            else:
+                message = '未签到，操作存在风险且sign匹配失败'
+        elif "操作存在风险，请稍后重试。" in text and "$.xpost(xn.url('sg_sign'), {'sign':  sign}" in text:
             pattern = r"var sign = \"([a-f0-9]+)\";"
             match = re.search(pattern, text)
             if match:
