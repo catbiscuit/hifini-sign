@@ -161,6 +161,7 @@ def sign(cookie, no):
         message = ''
 
         if "操作存在风险" in text and "encryptedSign" in text:
+            print('V2，再次签到')
             pattern = r"var sign = \"([a-f0-9]+)\";"
             match = re.search(pattern, text)
             if match:
@@ -176,6 +177,7 @@ def sign(cookie, no):
             else:
                 message = '未签到，操作存在风险且sign匹配失败'
         elif "操作存在风险，请稍后重试。" in text and "$.xpost(xn.url('sg_sign'), {'sign':  sign}" in text:
+            print('V3，再次签到')
             pattern = r"var sign = \"([a-f0-9]+)\";"
             match = re.search(pattern, text)
             if match:
@@ -184,7 +186,7 @@ def sign(cookie, no):
                     sm = random.randint(3, 6)
                     time.sleep(sm)
 
-                    text2 = signV2(cookie, sign)
+                    text2 = signV3(cookie, sign)
                     message = getMessage(text2)
                 else:
                     message = '未签到，操作存在风险且未能解析出sign'
