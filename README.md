@@ -52,4 +52,4 @@ hifinisign.yml，调整 \- cron: 20 21 * * *，对应北京时间5:20
 
 感谢 https://github.com/Xramas/HiFiNi-Auto-Sign 提供思路
 
-推荐 https://github.com/anduinnn/HiFiNi-Auto-CheckIn，此仓库在持续更新
+推荐 https://github.com/anduinnn/HiFiNi-Auto-CheckIn 此仓库在持续更新
